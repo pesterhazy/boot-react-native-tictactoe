@@ -21,11 +21,6 @@
 
 (defonce !state (r/atom nil))
 
-(defn player []
-  (:player @!state :x))
-
-(prn @!state)
-
 (defn cell [{:keys [on-press value winner?]}]
   [rn/touchable-highlight {:on-press on-press}
    [rn/view {:style cell-style}
@@ -44,8 +39,6 @@
            (map #(vector % (dec (- size %))) (range size))]))
 
 (defn wins? [board combination]
-  (prn "board" board)
-  (prn "combination:" combination)
   (let [fields (map #(get-in board %) combination)]
     (when (and (apply = fields) (first fields))
       combination)))
@@ -53,16 +46,18 @@
 (defn winner [board]
   (some (partial wins? board) combinations))
 
+(defn turn [board]
+  ({0 :x 1 :o}
+   (mod (->> board
+             vals
+             (mapcat vals)
+             count)
+        2)))
+
 (defn move [state x y]
-  (if (or (:winner state) (get-in state [:board x y]))
+  (if (or (-> state :board winner) (get-in state [:board x y]))
     state
-    (assoc-in state [:board x y] (:player state :x))))
-
-(defn next-player [state]
-  (assoc state :player (if (= :o (:player state)) :x :o)))
-
-(defn decide [state]
-  (assoc state :winner (winner (:board state))))
+    (assoc-in state [:board x y] (turn (:board state)))))
 
 (defn board-ui []
   (into [rn/view]
@@ -70,12 +65,8 @@
                (into
                 [rn/view {:style {:flex-direction :row}}]
                 (map (fn [x] [cell {:value (get-in @!state [:board x y])
-                                    :winner? (some-> @!state :winner set (get [x y]))
-                                    :on-press (fn []
-                                                (swap! !state #(-> %
-                                                                   (move x y)
-                                                                   next-player
-                                                                   decide)))}]) (range size))))
+                                    :winner? (some-> @!state :board winner set (get [x y]))
+                                    :on-press #(swap! !state move x y)}]) (range size))))
              (range size))))
 
 (defn root-view
