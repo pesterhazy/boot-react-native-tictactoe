@@ -32,7 +32,7 @@
 (deftask build
   []
   (comp
-   (reload :on-jsload 'mattsum.simple-example.core/on-js-reload
+   (reload :on-jsload 'tictactoe.core/on-js-reload
            :port 8079
            :ws-host "localhost")
    (rn/before-cljsbuild)

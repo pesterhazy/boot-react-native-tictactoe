@@ -1,4 +1,4 @@
-(ns mattsum.simple-example.core
+(ns tictactoe.core
   (:require [reagent.core :as r]
             [cljs.test :as test]))
 
