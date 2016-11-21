@@ -1,13 +1,8 @@
 (ns tictactoe.core
   (:require [reagent.core :as r]
-            [cljs.test :as test]))
+            [recalcitrant.core :as rn]))
 
 (enable-console-print!)
-
-;; we need set! for advanced compilation
-
-(set! js/React (js/require "react-native/Libraries/react-native/react-native.js"))
-(defonce react (js/require "react-native/Libraries/react-native/react-native.js"))
 
 ;; Assets need to be relative path, starting from the `app/build/node_modules'
 ;; directory. The packager only finds images located in the `app/' folder
@@ -17,35 +12,29 @@
 
 (defonce logo (js/require "../../assets/cljs.png"))
 
-(def view (r/adapt-react-class (.-View react)))
-(def text (r/adapt-react-class (.-Text react)))
-(def touchable-highlight (r/adapt-react-class (.-TouchableHighlight react)))
-(def image (r/adapt-react-class (.-Image react)))
-
-
 (defonce !state (r/atom {:count 0}))
 
 (defn root-view
   []
-  [view {:style {:margin-top 50
-                 :margin-left 8
-                 :justify-content "center"
-                 :align-items "center"}}
-   [text {:style {:font-family "Helvetica"
-                  :font-size 20
-                  :margin-bottom 20}}
+  [rn/view {:style {:margin-top 50
+                    :margin-left 8
+                    :justify-content "center"
+                    :align-items "center"}}
+   [rn/text {:style {:font-family "Helvetica"
+                     :font-size 20
+                     :margin-bottom 20}}
     "Welcome to boot-react-native"]
-   [image {:style {:width 350
-                   :height 348
-                   :margin-bottom 20}
-           :source logo}]
-   [touchable-highlight {:style {:padding 20
-                                 :background-color "#e0e0e0"}
-                         :on-press (fn []
-                                     (swap! !state update :count inc))
-                         :underlay-color "#f0f0f0"}
-    [text {:style {:font-family "Helvetica"
-                   :font-size 14}}
+   [rn/image {:style {:width 350
+                      :height 348
+                      :margin-bottom 20}
+              :source logo}]
+   [rn/touchable-highlight {:style {:padding 20
+                                    :background-color "#e0e0e0"}
+                            :on-press (fn []
+                                        (swap! !state update :count inc))
+                            :underlay-color "#f0f0f0"}
+    [rn/text {:style {:font-family "Helvetica"
+                      :font-size 14}}
      "Count: " (:count @!state) ", click to increase"]]])
 
 (defn root-container
@@ -58,7 +47,7 @@
   []
   (js/console.log "MAIN")
   (enable-console-print!)
-  (.registerComponent (.-AppRegistry react)
+  (.registerComponent (.-AppRegistry rn/react)
                       "TicTacToe"
                       #(r/reactify-component #'root-container)))
 
