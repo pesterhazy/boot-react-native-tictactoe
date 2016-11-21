@@ -6,10 +6,10 @@
 (enable-console-print!)
 
 (defn root-container
-  "Wraps root-view. This is to make sure live reloading using boot-reload and
+  "Wraps root-ui. This is to make sure live reloading using boot-reload and
   reagent works as expected. Instead of editing root-container, edit root-view"
   []
-  [root/root-view])
+  [root/root-ui])
 
 (defn ^:export main
   []
