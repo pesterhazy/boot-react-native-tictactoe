@@ -8,7 +8,8 @@
 (def size 3)
 
 (defn cell-ui [{:keys [on-press value winner?]}]
-  [rn/touchable-highlight {:on-press on-press}
+  [rn/touchable-highlight {:underlay-color :transparent
+                           :on-press on-press}
    [rn/view {:style s/cell}
     [rn/text {:style [s/cell-text (when winner? {:color :red})]}
      (case value
@@ -53,10 +54,15 @@
                                        :on-press #(swap! !state move x y)}]) (range size))))
              (range size))))
 
+(defn reset-ui []
+  [rn/view {:style {:margin-top 10}}
+   [rn/touchable-highlight {:on-press #(reset! !state nil)
+                            :underlay-color :transparent}
+    [rn/view {:style s/button}
+     [rn/text {:style s/button-text} "Try again"]]]])
+
 (defn root-ui
   []
   [rn/view {:style s/container}
    [board-ui]
-   [rn/touchable-highlight {:on-press #(reset! !state nil)}
-    [rn/view {:style s/button}
-     [rn/text {:style s/button-text} "Try again"]]]])
+   [reset-ui]])
