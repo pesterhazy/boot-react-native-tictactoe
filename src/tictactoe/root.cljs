@@ -15,10 +15,22 @@
    :justifyContent :center,
    :alignItems :center})
 
+(def cell-text-style
+  {:fontSize 50,
+   :fontFamily "AvenirNext-Bold",})
+
 (defonce !state (r/atom nil))
 
-(defn cell []
-  [rn/view {:style cell-style}])
+(prn @!state)
+
+(defn cell [{:keys [on-press value]}]
+  [rn/touchable-highlight {:on-press on-press}
+   [rn/view {:style cell-style}
+    [rn/text {:style cell-text-style}
+     (case value
+       :x "X"
+       :o "O"
+       "")]]])
 
 (def size 3)
 
@@ -27,7 +39,8 @@
         (map (fn [y]
                (into
                 [rn/view {:style {:flex-direction :row}}]
-                (map (fn [x] [cell]) (range size))))
+                (map (fn [x] [cell {:value (get-in @!state [:board x y])
+                                    :on-press #(swap! !state assoc-in [:board x y] :o)}]) (range size))))
              (range size))))
 
 (defn root-view
