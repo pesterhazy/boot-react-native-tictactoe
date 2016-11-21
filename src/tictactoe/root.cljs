@@ -48,4 +48,9 @@
   [rn/view {:style {:flex 1
                     :justify-content :center
                     :align-items :center}}
-   [board]])
+   [board]
+   [rn/touchable-highlight {:on-press #(reset! !state nil)}
+    [rn/view {:style {:margin-top 10
+                      :padding 10
+                      :backgroundColor "#7b8994"}}
+     [rn/text {:style default-font} "Reset"]]]])
