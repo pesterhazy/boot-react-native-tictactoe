@@ -59,7 +59,7 @@
   (js/console.log "MAIN")
   (enable-console-print!)
   (.registerComponent (.-AppRegistry react)
-                      "SimpleExampleApp"
+                      "TicTacToe"
                       #(r/reactify-component #'root-container)))
 
 (defn on-js-reload

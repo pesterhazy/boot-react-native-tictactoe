@@ -47,7 +47,7 @@
 
 (defn -main [& args]
   "Simple integration test for reloading. Requires boot and packager to have started up before running. Also requires appium server to be running (npm install -g appium && appium).
-Also ensure that Android device is connected via adb and that SimpleExampleApp has been installed (gradle installDebug)."
+Also ensure that Android device is connected via adb and that TicTacToe has been installed (gradle installDebug)."
   (test/run-tests)
 
   )
