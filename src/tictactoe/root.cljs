@@ -3,7 +3,7 @@
             [recalcitrant.core :as rn]
             [tictactoe.style :as s]))
 
-(defonce !state (r/atom nil))
+(defonce !board (r/atom nil))
 
 (def size 3)
 
@@ -24,7 +24,7 @@
            (map #(vector % (dec (- size %))) (range size))]))
 
 (defn wins? [board combination]
-  (let [fields (map #(get-in board %) combination)]
+  (let [fields (map #(get board %) combination)]
     (when (and (apply = fields) (first fields))
       combination)))
 
@@ -32,37 +32,37 @@
   (some (partial wins? board) combinations))
 
 (defn turn [board]
-  ({0 :x 1 :o}
-   (mod (->> board
-             vals
-             (mapcat vals)
-             count)
-        2)))
+  (-> board vals count (mod 2) {0 :x 1 :o}))
 
-(defn move [state x y]
-  (if (or (-> state :board winner) (get-in state [:board x y]))
-    state
-    (assoc-in state [:board x y] (turn (:board state)))))
+(defn move [board x y]
+  (if (or (winner board) (get board [x y]))
+    board
+    (assoc board [x y] (turn board))))
 
 (defn board-ui []
   (into [rn/view]
         (map (fn [y]
                (into
                 [rn/view {:style {:flex-direction :row}}]
-                (map (fn [x] [cell-ui {:value (get-in @!state [:board x y])
-                                       :winner? (some-> @!state :board winner set (get [x y]))
-                                       :on-press #(swap! !state move x y)}]) (range size))))
+                (map (fn [x] [cell-ui {:value (get @!board [x y])
+                                       :winner? (some-> @!board winner set (get [x y]))
+                                       :on-press #(swap! !board move x y)}]) (range size))))
              (range size))))
 
 (defn reset-ui []
   [rn/view {:style {:margin-top 10}}
-   [rn/touchable-highlight {:on-press #(reset! !state nil)
+   [rn/touchable-highlight {:on-press #(reset! !board nil)
                             :underlay-color :transparent}
     [rn/view {:style s/button}
      [rn/text {:style s/button-text} "Try again"]]]])
+
+(defn debug-ui []
+  [rn/view {:style {:margin-top 20}}
+   [rn/text (pr-str @!board)]])
 
 (defn root-ui
   []
   [rn/view {:style s/container}
    [board-ui]
-   [reset-ui]])
+   [reset-ui]
+   [debug-ui]])
