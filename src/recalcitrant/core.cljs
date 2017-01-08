@@ -12,11 +12,15 @@
 (def image (r/adapt-react-class (.-Image react)))
 (def dimensions (.-Dimensions react))
 
-(defn window-width []
-  (.-width (.get dimensions "window")))
+(defn window-width
+  ([]
+   (.-width (.get dimensions "window")))
+  ([multiplier] (* (window-width) multiplier)))
 
-(defn window-height []
-  (.-height (.get dimensions "window")))
+(defn window-height
+  ([]
+   (.-height (.get dimensions "window")))
+  ([multiplier] (* (window-height) multiplier)))
 
 (defn frisk-ui [state]
   [text {:style {:font-family "Menlo-Regular"

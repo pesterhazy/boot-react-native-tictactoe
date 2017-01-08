@@ -1,18 +1,21 @@
-(ns tictactoe.style)
+(ns tictactoe.style
+  (:require [recalcitrant.core :as rn]))
 
-(def container {:flex 1
-                :justify-content :center
-                :align-items :center})
+(def board
+  {:width (rn/window-width 0.8)
+   :height (rn/window-width 0.8)})
 
 (def cell
-  {:width 80,
-   :height 80,
-   :borderRadius 5,
+  {:borderRadius 5,
    :backgroundColor "#7b8994",
    :margin 5,
    :flex 1,
    :justifyContent :center,
    :alignItems :center})
+
+(def row
+  {:flex 1
+   :flex-direction :row})
 
 (def cell-text
   {:fontSize 50,
