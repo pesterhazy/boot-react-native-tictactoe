@@ -63,7 +63,7 @@
    (pr-str @state)])
 
 (defn drawer-ui [{:keys [height]} & children]
-  [rn/touchable-highlight {:on-press #(println "asdf\nasdf2\nasdf2" (js/Date.))}
+  [rn/touchable-highlight {:on-press #(println "asdf" (js/Date.))}
    (into [rn/view {:style {:background-color "#e0e0e0"
                            :position :absolute
                            :bottom 0
