@@ -1,5 +1,6 @@
 (ns tictactoe.core
   (:require [tictactoe.root :as root]
+            [tictactoe.common :refer [!state]]
             [reagent.core :as r]
             [recalcitrant.core :as rn]))
 
@@ -9,7 +10,13 @@
   "Wraps root-ui. This is to make sure live reloading using boot-reload and
   reagent works as expected. Instead of editing root-container, edit root-view"
   []
-  [root/root-ui])
+  [rn/view {:style {:background-color "#F5FCFF"
+                    :flex 1
+                    :justify-content :center
+                    :align-items :center}}
+   [root/root-ui]
+   [rn/drawer-ui {}
+    [rn/frisk-ui !state]]])
 
 (defn ^:export main
   []
