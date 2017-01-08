@@ -50,13 +50,6 @@
                [row y])
              (range size))))
 
-(defn debug-ui []
-  [rn/view {:style {:margin-top 20
-                    :flex 1
-                    :flex-direction :column
-                    :background-color :red}}
-   [rn/text (pr-str @!board)]])
-
 (defn reset-ui []
   [rn/view {:style {:margin-top 10}}
    [rn/touchable-highlight {:on-press #(reset! !board nil)
@@ -65,32 +58,28 @@
      [rn/text {:style s/button-text} "Try again"]]]])
 
 (defn frisk-ui [state]
-  [rn/text {:style {:font-family "AmericanTypewriter-Condensed"}}
+  [rn/text {:style {:font-family "Menlo-Regular"
+                    :font-size 16}}
    (pr-str @state)])
 
-(defn drawer-ui [props & children]
+(defn drawer-ui [{:keys [height]} & children]
   [rn/touchable-highlight {:on-press #(println "asdf\nasdf2\nasdf2" (js/Date.))}
    (into [rn/view {:style {:background-color "#e0e0e0"
                            :position :absolute
                            :bottom 0
-                           :height 180
+                           :height (or height 150)
                            :padding 5
                            :width (rn/window-width)}}]
          children)])
 
+(defn content-ui []
+  [rn/view {:style s/container}
+   [board]
+   [reset-ui]])
+
 (defn root-ui
   []
-  #_[rn/view {:style s/container}
-     [board]
-     [reset-ui]
-     [debug-ui]]
-  [rn/view {:style {:background-color :green
-                    :flex 1}}
-   [rn/view {:style {:justify-content :center
-                     :flex 1}}
-    [rn/text {:style {:font-family "Futura"}}
-     (clojure.string/join ", " (repeat 100 "Lorem ipsum"))]]
+  [rn/view {:style {:background-color "#f8f8f8" :flex 1}}
+   [content-ui]
    [drawer-ui {}
-    [frisk-ui !board]]
-   ]
-  )
+    [frisk-ui !board]]])
