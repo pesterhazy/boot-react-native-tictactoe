@@ -11,8 +11,8 @@ plan
   - don't forget keys
 - 3 rows
   - don't forget keys
-- don't forget doall
 - deref state
+  - don't forget doall
 - add touchable opacity to cell (no view necessary)
 - add on-press handler
 - move fn: operates on state
