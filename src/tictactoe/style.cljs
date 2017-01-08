@@ -6,23 +6,30 @@
    :height (rn/window-width 0.8)})
 
 (def cell
-  {:borderRadius 5,
-   :backgroundColor "#7b8994",
+  {:border-radius 5,
+   :background-color "#7b8994",
    :margin 5,
    :flex 1,
-   :justifyContent :center,
-   :alignItems :center})
+   :justify-content :center,
+   :align-items :center})
 
 (def row
   {:flex 1
    :flex-direction :row})
 
 (def cell-text
-  {:fontSize 50,
-   :fontFamily "AvenirNext-Bold",})
+  {:font-size 50,
+   :font-family "AvenirNext-Bold",
+   :color :white})
 
-(def button {:padding 10
-             :backgroundColor "#7b8994"})
+(def button {:margin-top 15
+             :width 200
+             :border-radius 5
+             :align-self :center
+             :padding 10
+             :background-color "#7b8994"})
 
-(def button-text {:font-family "AvenirNext-Bold"
+(def button-text {:align-self :center
+                  :color :white
+                  :font-family "AvenirNext-Bold"
                   :font-size 20})
