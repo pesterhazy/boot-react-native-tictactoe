@@ -51,7 +51,10 @@
              (range size))))
 
 (defn debug-ui []
-  [rn/view {:style {:margin-top 20}}
+  [rn/view {:style {:margin-top 20
+                    :flex 1
+                    :flex-direction :column
+                    :background-color :red}}
    [rn/text (pr-str @!board)]])
 
 (defn reset-ui []
@@ -61,9 +64,33 @@
     [rn/view {:style s/button}
      [rn/text {:style s/button-text} "Try again"]]]])
 
+(defn frisk-ui [state]
+  [rn/text {:style {:font-family "AmericanTypewriter-Condensed"}}
+   (pr-str @state)])
+
+(defn drawer-ui [props & children]
+  [rn/touchable-highlight {:on-press #(println "asdf\nasdf2\nasdf2" (js/Date.))}
+   (into [rn/view {:style {:background-color "#e0e0e0"
+                           :position :absolute
+                           :bottom 0
+                           :height 180
+                           :padding 5
+                           :width (rn/window-width)}}]
+         children)])
+
 (defn root-ui
   []
-  [rn/view {:style s/container}
-   [board]
-   [reset-ui]
-   [debug-ui]])
+  #_[rn/view {:style s/container}
+     [board]
+     [reset-ui]
+     [debug-ui]]
+  [rn/view {:style {:background-color :green
+                    :flex 1}}
+   [rn/view {:style {:justify-content :center
+                     :flex 1}}
+    [rn/text {:style {:font-family "Futura"}}
+     (clojure.string/join ", " (repeat 100 "Lorem ipsum"))]]
+   [drawer-ui {}
+    [frisk-ui !board]]
+   ]
+  )

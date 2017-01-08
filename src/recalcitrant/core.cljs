@@ -9,3 +9,6 @@
 (def text (r/adapt-react-class (.-Text react)))
 (def touchable-highlight (r/adapt-react-class (.-TouchableHighlight react)))
 (def image (r/adapt-react-class (.-Image react)))
+(def dimensions (.-Dimensions react))
+(defn window-width []
+  (.-width (.get dimensions "window")))
