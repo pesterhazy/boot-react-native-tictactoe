@@ -62,15 +62,28 @@
                     :font-size 16}}
    (pr-str @state)])
 
-(defn drawer-ui [{:keys [height]} & children]
-  [rn/touchable-highlight {:on-press #(println "asdf" (js/Date.))}
-   (into [rn/view {:style {:background-color "#e0e0e0"
+(defn drawer-ui []
+  (let [!open (r/atom nil)]
+    (fn [{:keys [height]} & children]
+      (if @!open
+        [rn/touchable-highlight {:on-press #(swap! !open not)}
+         (into [rn/view {:style {:background-color "#e0e0e0"
+                                 :position :absolute
+                                 :bottom 0
+                                 :height (or height 150)
+                                 :padding 5
+                                 :width (rn/window-width)}}]
+               children)]
+        [rn/touchable-highlight {:on-press #(swap! !open not)}
+         [rn/view {:style {:background-color "#e0e0e0"
                            :position :absolute
                            :bottom 0
-                           :height (or height 150)
+                           :height 20
                            :padding 5
-                           :width (rn/window-width)}}]
-         children)])
+                           :width (rn/window-width)}}
+          [rn/text {:style {:text-align :center}}
+           "^^"]]]
+        ))))
 
 (defn content-ui []
   [rn/view {:style s/container}
