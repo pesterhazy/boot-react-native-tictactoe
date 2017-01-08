@@ -12,3 +12,30 @@
 (def dimensions (.-Dimensions react))
 (defn window-width []
   (.-width (.get dimensions "window")))
+
+(defn frisk-ui [state]
+  [text {:style {:font-family "Menlo-Regular"
+                 :font-size 16}}
+   (pr-str @state)])
+
+(defn drawer-ui []
+  (let [!open (r/atom nil)]
+    (fn [{:keys [height]} & children]
+      (if @!open
+        [touchable-highlight {:on-press #(swap! !open not)}
+         (into [view {:style {:background-color "#e0e0e0"
+                              :position :absolute
+                              :bottom 0
+                              :height (or height 150)
+                              :padding 5
+                              :width (window-width)}}]
+               children)]
+        [touchable-highlight {:on-press #(swap! !open not)}
+         [view {:style {:background-color "#e0e0e0"
+                        :position :absolute
+                        :bottom 0
+                        :height 20
+                        :padding 5
+                        :width (window-width)}}
+          [text {:style {:text-align :center}}
+           "^^"]]]))))

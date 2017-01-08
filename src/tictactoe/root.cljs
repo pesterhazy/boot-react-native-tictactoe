@@ -57,34 +57,6 @@
     [rn/view {:style s/button}
      [rn/text {:style s/button-text} "Try again"]]]])
 
-(defn frisk-ui [state]
-  [rn/text {:style {:font-family "Menlo-Regular"
-                    :font-size 16}}
-   (pr-str @state)])
-
-(defn drawer-ui []
-  (let [!open (r/atom nil)]
-    (fn [{:keys [height]} & children]
-      (if @!open
-        [rn/touchable-highlight {:on-press #(swap! !open not)}
-         (into [rn/view {:style {:background-color "#e0e0e0"
-                                 :position :absolute
-                                 :bottom 0
-                                 :height (or height 150)
-                                 :padding 5
-                                 :width (rn/window-width)}}]
-               children)]
-        [rn/touchable-highlight {:on-press #(swap! !open not)}
-         [rn/view {:style {:background-color "#e0e0e0"
-                           :position :absolute
-                           :bottom 0
-                           :height 20
-                           :padding 5
-                           :width (rn/window-width)}}
-          [rn/text {:style {:text-align :center}}
-           "^^"]]]
-        ))))
-
 (defn content-ui []
   [rn/view {:style s/container}
    [board]
@@ -94,5 +66,5 @@
   []
   [rn/view {:style {:background-color "#f8f8f8" :flex 1}}
    [content-ui]
-   [drawer-ui {}
-    [frisk-ui !board]]])
+   [rn/drawer-ui {}
+    [rn/frisk-ui !board]]])
