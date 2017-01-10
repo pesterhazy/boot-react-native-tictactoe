@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 cd "$PRO/app"
-react-native run-ios
+node_modules/.bin/react-native run-ios

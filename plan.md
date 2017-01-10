@@ -14,7 +14,8 @@ plan
 - deref state
   - don't forget doall
 - add touchable opacity to cell (no view necessary)
-- add on-press handler
+  - add on-press handler
 - move fn: operates on state
-- only move if field is empty
+  - only move if field is empty
 - add "try again" button
+  - just reset to nil
