@@ -3,6 +3,6 @@
 # FIXME: this will not work properly with log messages spanning multiple lines
 
 cd "$PRO/app"
-unbuffer react-native log-ios | \
+unbuffer node_modules/.bin/react-native log-ios | \
   python "$PRO/util/rn-log-filter" TicTacToe | \
   ggrep --line-buffered --color=always -E 'asdf|$'

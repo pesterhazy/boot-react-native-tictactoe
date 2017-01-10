@@ -50,7 +50,6 @@
 (defn root-ui []
   (let [win (or (winning @!state :x)
                 (winning @!state :o))]
-    (prn "win:" win)
     [rn/view
      [rn/view {:style s/board}
       (doall

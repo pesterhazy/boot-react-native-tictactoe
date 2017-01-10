@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 cd "$PRO/app"
-node_modules/.bin/react-native start
+node_modules/.bin/react-native start "$@"
