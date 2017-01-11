@@ -1,10 +1,10 @@
-(ns tictactoe.root
+(ns tictactoe.game
   (:require [reagent.core :as r]
             [recalcitrant.core :as rn]
             [tictactoe.common :refer [!state]]
             [tictactoe.style :as s]))
 
-(def size 3)
+(def size 4)
 
 ;; position: #{[0 0] [1 1] [2 2]}
 

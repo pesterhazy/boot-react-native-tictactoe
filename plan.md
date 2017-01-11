@@ -1,13 +1,15 @@
 preparation
 
 - sound
-- two window console
+- Emacs left, Simulator right
 - boot dev
 - run-packager
 - run-ios
 - open logging console
 
-plan
+DEMO
+
+PART 1: styling
 
 - board
 - cell
@@ -19,11 +21,18 @@ plan
   - don't forget doall
 - add touchable opacity to cell (no view necessary)
   - add on-press handler
+
+PART 2: state
+
 - state inspector widget
 - refactor: move fn: operates on state
   - only move if field is empty
 - add "try again" button
   - just reset to nil
+  - explain how styles work
+
+PART 3: logic
+
 - color cell red
 - did one of the players win?
   - a "position" is a set of pairs
@@ -32,6 +41,13 @@ plan
   - (winning board player) -- returns a winning position or nil otherwise (intersection)
   - for both players
 - if cell coordinates are member of winning position, show them red
+
+BONUS FEATURE
+
+- NOT SO FAST... increase size to 4!
+
+LESSONS
+
 
 todo
 
