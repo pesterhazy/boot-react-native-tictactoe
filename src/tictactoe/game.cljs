@@ -4,9 +4,9 @@
             [tictactoe.common :refer [!state]]
             [tictactoe.style :as s]))
 
-(def size 4)
+;; {[1 1] :x [2 1] :o}
 
-;; position: #{[0 0] [1 1] [2 2]}
+(def size 4)
 
 (defn line [size x f]
   (set (for [y (range size)] (f x y))))
@@ -25,19 +25,18 @@
       (conj (diagonal size (fn [x] [x x])))
       (conj (diagonal size (fn [x] [x (- size x 1)])))))
 
-(defn cell-ui [{:keys [value key on-press color]}]
+;; #{[0 0] [1 1] [2 2]}
+
+
+(defn cell-ui [{:keys [value on-press color]}]
   [rn/touchable-opacity {:style s/cell
                          :on-press on-press}
-   [rn/text {:style (assoc s/cell-text :color color)}
-    (or (some-> value name clojure.string/upper-case)
-        " ")]])
+   [rn/text {:style (assoc s/cell-text :color color)} value]])
 
 (defn move [state x y]
-  (if (get state [x y])
-    state
-    (assoc state [x y] (if (zero? (mod (count state) 2))
-                         :x
-                         :o))))
+  (assoc state [x y] ({0 :x
+                       1 :o} (-> state count (mod 2)))))
+
 
 (defn all [state player]
   (->> state (keep (fn [[k v]] (when (= player v) k))) set))
@@ -51,18 +50,16 @@
   (let [win (or (winning @!state :x)
                 (winning @!state :o))]
     [rn/view
-     [rn/view {:style s/board}
-      (doall
-       (map (fn [y]
-              [rn/view {:key y :style s/row}
-               (doall
-                (map (fn [x] [cell-ui {:key x
-                                       :color (if (get win [x y]) :red :white)
-                                       :on-press #(swap! !state move x y)
-                                       :value (get @!state [x y])}])
-                     (range size)))])
-            (range size)))]
+     (into [rn/view {:style s/board}]
+           (map (fn [x]
+                  (into [rn/view {:style s/row}]
+                        (map (fn [y] (cell-ui {:value (get @!state [x y])
+                                               :color (if (get win [x y])
+                                                        :red
+                                                        :white)
+                                               :on-press #(swap! !state move x y)}))
+                             (range size))))
+                (range size)))
      [rn/touchable-opacity {:style s/button
                             :on-press #(reset! !state nil)}
-      [rn/text {:style s/button-text}
-       "try again"]]]))
+      [rn/text {:style s/button-text} "Try again"]]]))

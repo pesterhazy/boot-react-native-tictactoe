@@ -1,5 +1,5 @@
 (ns tictactoe.core
-  (:require [tictactoe.root :as root]
+  (:require [tictactoe.game :as game]
             [tictactoe.common :refer [!state]]
             [reagent.core :as r]
             [recalcitrant.core :as rn]))
@@ -14,7 +14,7 @@
                     :flex 1
                     :justify-content :center
                     :align-items :center}}
-   [root/root-ui]
+   [game/root-ui]
    [rn/drawer-ui {}
     [rn/frisk-ui !state]]])
 
